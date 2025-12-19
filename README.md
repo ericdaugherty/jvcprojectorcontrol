@@ -30,6 +30,30 @@ Additional commands can be added easily once you have the correct bytes required
 Docs:
 - [NZ500, NZ700, RS1200, RS2200](https://manuals.jvckenwood.com/download/files/B5A-4685-11.pdf) Page 75
 
+## Command Line
+
+The command line tool takes several arguments. 
+
+`-i 192.160.0.1` Specify the IP address of the projector (if known)
+
+`-s` Scan subnet for projectors. Will send the command if one found, or return a list of IPs if multiple are found.
+
+Command: (`-c NULL`)
+- NULL
+- OFF
+- ON
+- INPUT1
+- INPUT2
+
+`-p <PASSWORD>` Specify the password (NZ projectors)
+
+Password Hash: (`-h NONE`)
+- NONE - For NX projectors
+- JVCKW - For most NZ projectors
+- JVCKWPJ For NZ500/NZ700 and later projectors
+
+`-d` enabled debug mode to see all traffic to/from the projector.
+
 ## Resources
 
 Similar Projects
