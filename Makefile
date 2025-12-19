@@ -1,7 +1,7 @@
 .PHONY: cli
 cli: ## Builds CLI Command
 # 	GOOS=darwin COARCH=amd64 go build -o cli ./cmd/cli
-	go build -o cli ./cmd/cli
+	go build -o jvccontrol ./cmd/cli
 
 .PHONY: help
 help:

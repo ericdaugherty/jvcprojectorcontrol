@@ -1,0 +1,40 @@
+name: Release Go Binary
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  releases-matrix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [windows, darwin, linux]
+        goarch: [amd64, arm64]
+        exclude:
+          - goarch: arm64
+            goos: linux
+          - goarch: arm64
+            goos: windows
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set APP_VERSION env
+      run: echo APP_VERSION=$(echo ${GITHUB_REF} | rev | cut -d'/' -f 1 | rev ) >> ${GITHUB_ENV}
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: 'stable'
+    - name: Build
+      run: |
+          if [ "${{ matrix.goos }}" == "windows" ]; then
+            OUTPUT_FILE="jvccontrol.exe"
+          else
+            OUTPUT_FILE="jvccontrol"
+          fi
+          GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o $OUTPUT_FILE -v -ldflags "-X main.Version=${{ github.event.release.tag_name }}"
+    - name: Package
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+          zip "jvcprojectorcontrol-${{ github.event.release.tag_name }}-${{ matrix.goos }}-${{ matrix.goarch }}.zip" jvcprojectorcontrol* README.md
+          gh release upload ${{ github.event.release.tag_name }} "jvcprojectorcontrol-${{ github.event.release.tag_name }}-${{ matrix.goos }}-${{ matrix.goarch }}.zip"
