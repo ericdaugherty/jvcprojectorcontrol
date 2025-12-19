@@ -34,7 +34,7 @@ Docs:
 
 The command line tool takes several arguments. 
 
-`-i 192.160.0.1` Specify the IP address of the projector (if known)
+`-i <IP Address>` Specify the IP address of the projector (if known)
 
 `-s` Scan subnet for projectors. Will send the command if one found, or return a list of IPs if multiple are found.
 
